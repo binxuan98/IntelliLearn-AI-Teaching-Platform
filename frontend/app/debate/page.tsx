@@ -95,19 +95,28 @@ export default function DebatePage() {
     setIsTimerRunning(true)
     
     try {
-      const response = await fetch('/api/debrief', {
+      const response = await fetch('/api/debate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ 
-          action: 'start',
-          judgeType: selectedJudge.id 
+          topic: '请开始答辩',
+          answer: '开始答辩',
+          judges: [selectedJudge.id]
         }),
       })
       
       const data = await response.json()
-      setCurrentQuestion(data.question)
+      // 生成第一个问题
+      const firstQuestion = {
+        id: '1',
+        judgeId: selectedJudge.id,
+        question: `请简要介绍您的研究主题，并说明其重要性和创新点。`,
+        difficulty: 'medium' as const,
+        category: '开场介绍'
+      }
+      setCurrentQuestion(firstQuestion)
     } catch (error) {
       console.error('Failed to start debate:', error)
     } finally {
@@ -130,28 +139,55 @@ export default function DebatePage() {
     setDebateHistory([...debateHistory, newEntry])
     
     try {
-      const response = await fetch('/api/debrief', {
+      const response = await fetch('/api/debate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          action: 'evaluate',
-          question: currentQuestion.question,
+          topic: currentQuestion.question,
           answer: userAnswer,
-          judgeType: selectedJudge.id,
-          history: debateHistory
+          judges: [selectedJudge.id],
+          currentQuestion: currentQuestion
         }),
       })
       
       const data = await response.json()
       
-      if (data.isComplete) {
-        setResult(data.result)
+      // 转换后端返回的数据格式
+      const debateResult: DebateResult = {
+        totalScore: data.overallScore,
+        scores: {
+          expression: data.evaluations[0]?.scores.expression || 80,
+          content: data.evaluations[0]?.scores.content || 80,
+          interaction: data.evaluations[0]?.scores.interaction || 80,
+          innovation: data.evaluations[0]?.scores.innovation || 80
+        },
+        feedback: data.evaluations[0]?.feedback || '答辩表现良好',
+        suggestions: data.improvements || [],
+        recommendations: data.recommendations?.map((r: any) => r.title) || []
+      }
+      
+      // 判断是否完成答辩（这里简化为3轮问答后结束）
+      if (debateHistory.length >= 2) {
+        setResult(debateResult)
         setIsDebating(false)
         setIsTimerRunning(false)
       } else {
-        setCurrentQuestion(data.nextQuestion)
+        // 生成下一个问题
+        const nextQuestions = [
+          '请详细阐述您的研究方法和技术路线。',
+          '您的研究成果有哪些实际应用价值？',
+          '在研究过程中遇到了哪些挑战，是如何解决的？'
+        ]
+        const nextQuestion = {
+          id: (debateHistory.length + 2).toString(),
+          judgeId: selectedJudge.id,
+          question: nextQuestions[debateHistory.length] || '请总结您的研究贡献。',
+          difficulty: 'medium' as const,
+          category: '深入讨论'
+        }
+        setCurrentQuestion(nextQuestion)
       }
     } catch (error) {
       console.error('Failed to submit answer:', error)
