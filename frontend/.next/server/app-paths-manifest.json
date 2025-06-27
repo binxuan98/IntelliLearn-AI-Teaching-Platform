@@ -1,9 +1,0 @@
-{
-  "/page": "app/page.js",
-  "/chat/page": "app/chat/page.js",
-  "/analysis/page": "app/analysis/page.js",
-  "/ideology/page": "app/ideology/page.js",
-  "/summary/page": "app/summary/page.js",
-  "/keywords/page": "app/keywords/page.js",
-  "/debate/page": "app/debate/page.js"
-}
