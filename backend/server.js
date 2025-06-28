@@ -29,7 +29,10 @@ app.use(helmet({
 }))
 
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001'],
+  origin: function(origin, callback) {
+    // 允许所有来源访问（生产环境中应该限制具体域名）
+    callback(null, true)
+  },
   credentials: true
 }))
 
@@ -564,12 +567,14 @@ app.use((req, res) => {
 })
 
 // 启动服务器
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 启思·智教大模型平台后端服务已启动`)
-  console.log(`📍 服务地址: http://localhost:${PORT}`)
+  console.log(`📍 本地地址: http://localhost:${PORT}`)
+  console.log(`🌐 公网地址: http://0.0.0.0:${PORT}`)
   console.log(`📚 API文档: http://localhost:${PORT}/docs`)
   console.log(`🔧 环境: ${process.env.NODE_ENV || 'development'}`)
   console.log(`⏰ 启动时间: ${new Date().toLocaleString('zh-CN')}`)
+  console.log(`💡 提示: 服务已绑定到所有网络接口，可通过公网IP访问`)
 })
 
 // 优雅关闭
