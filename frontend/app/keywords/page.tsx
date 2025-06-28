@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { 
   Upload, 
@@ -15,6 +15,10 @@ import {
 } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
+
+// 动态导入ForceGraph2D以避免SSR问题
+const ForceGraph2D = dynamic(() => import('react-force-graph-2d'), { ssr: false })
 
 interface KeywordData {
   word: string
@@ -133,38 +137,89 @@ export default function KeywordsPage() {
   }
 
   const KnowledgeGraph = ({ keywords }: { keywords: KeywordData[] }) => {
+    // 生成图数据
+    const graphData: {
+      nodes: Array<{
+        id: string
+        name: string
+        val: number
+        color: string
+        count: number
+        weight: number
+      }>
+      links: Array<{
+        source: string
+        target: string
+        value: number
+      }>
+    } = {
+      nodes: keywords.slice(0, 15).map((keyword, index) => ({
+        id: keyword.word,
+        name: keyword.word,
+        val: keyword.weight * 100 + 5, // 节点大小基于权重
+        color: `hsl(${(index * 137.5) % 360}, 70%, 60%)`, // 使用黄金角度分布颜色
+        count: keyword.count,
+        weight: keyword.weight
+      })),
+      links: []
+    }
+
+    // 生成连接关系（基于权重相似性和词汇关联性）
+    const nodes = graphData.nodes
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const node1 = nodes[i]
+        const node2 = nodes[j]
+        
+        // 基于权重差异和随机因子决定是否连接
+        const weightDiff = Math.abs(node1.weight - node2.weight)
+        const shouldConnect = weightDiff < 0.1 || Math.random() > 0.7
+        
+        if (shouldConnect && graphData.links.length < 20) {
+          graphData.links.push({
+            source: node1.id,
+            target: node2.id,
+            value: Math.max(0.1, 1 - weightDiff * 5) // 连接强度
+          })
+        }
+      }
+    }
+
+    const handleNodeClick = useCallback((node: any) => {
+      // 可以添加节点点击事件，比如显示详细信息
+      console.log('Clicked node:', node)
+    }, [])
+
     return (
       <div className="p-6 bg-slate-50 dark:bg-slate-800 rounded-lg">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {keywords.slice(0, 12).map((keyword, index) => (
-            <motion.div
-              key={keyword.word}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-white dark:bg-slate-700 p-4 rounded-lg shadow-sm border border-slate-200 dark:border-slate-600 hover:shadow-md transition-shadow cursor-pointer group"
-            >
-              <div className="text-center">
-                <div className={`w-12 h-12 mx-auto mb-2 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 flex items-center justify-center text-white font-bold text-lg group-hover:scale-110 transition-transform`}>
-                  {keyword.word.charAt(0)}
-                </div>
-                <h4 className="font-semibold text-slate-800 dark:text-slate-200 mb-1">
-                  {keyword.word}
-                </h4>
-                <p className="text-sm text-slate-500 dark:text-slate-400">
-                  权重: {keyword.weight.toFixed(2)}
-                </p>
-                <div className="mt-2 flex gap-1">
-                  <Link href="/ideology" className="text-xs bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-2 py-1 rounded">
-                    思政
-                  </Link>
-                  <Link href="/debate" className="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-2 py-1 rounded">
-                    答辩
-                  </Link>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+        <div className="h-96 w-full">
+          <ForceGraph2D
+            graphData={graphData}
+            nodeLabel={(node: any) => `${node.name}\n出现次数: ${node.count}\n权重: ${node.weight.toFixed(3)}`}
+            nodeColor={(node: any) => node.color}
+            nodeVal={(node: any) => node.val}
+            linkColor={() => 'rgba(100, 116, 139, 0.3)'}
+            linkWidth={(link: any) => link.value * 2}
+            onNodeClick={handleNodeClick}
+            nodeCanvasObject={(node: any, ctx: any, globalScale: any) => {
+              const label = node.name
+              const fontSize = 12 / globalScale
+              ctx.font = `${fontSize}px Sans-Serif`
+              ctx.textAlign = 'center'
+              ctx.textBaseline = 'middle'
+              ctx.fillStyle = '#1e293b'
+              ctx.fillText(label, node.x, node.y)
+            }}
+            cooldownTicks={100}
+            d3AlphaDecay={0.02}
+            d3VelocityDecay={0.3}
+            enableZoomInteraction={true}
+            enablePanInteraction={true}
+            backgroundColor="transparent"
+          />
+        </div>
+        <div className="mt-4 text-sm text-slate-600 dark:text-slate-400 text-center">
+          💡 拖拽节点可以调整布局，滚轮缩放，点击节点查看详情
         </div>
       </div>
     )

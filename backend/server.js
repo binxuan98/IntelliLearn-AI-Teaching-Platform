@@ -70,11 +70,18 @@ const extractKeywords = (text, language = 'zh') => {
       wordCount[word] = (wordCount[word] || 0) + 1
     })
     
-    // 排序并返回前20个关键词
+    // 计算总词数用于权重计算
+    const totalWords = words.length
+    
+    // 排序并返回前20个关键词，添加权重计算
     return Object.entries(wordCount)
       .sort(([,a], [,b]) => b - a)
       .slice(0, 20)
-      .map(([word, count]) => ({ word, count }))
+      .map(([word, count]) => ({ 
+        word, 
+        count,
+        weight: count / totalWords // 添加权重属性
+      }))
   } catch (error) {
     console.error('关键词提取错误:', error)
     return []
