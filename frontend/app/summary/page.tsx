@@ -105,23 +105,23 @@ export default function SummaryPage() {
           id: '1',
           student: '张同学',
           type: 'question',
-          content: '老师，二叉树的遍历算法在实际项目中有什么应用？',
+          content: '怎么知道IP有没有冲突？',
           timestamp: '14:25',
           quality: 85
         },
         {
           id: '2',
           student: '李同学',
-          type: 'discussion',
-          content: '我觉得递归算法很有趣，它体现了分而治之的思想，这让我想到了毛泽东的《矛盾论》...',
+          type: 'question',
+          content: '如何测试网络有没有联通？',
           timestamp: '14:32',
           quality: 92
         },
         {
           id: '3',
           student: '王同学',
-          type: 'answer',
-          content: '动态规划可以用来解决最优化问题，比如背包问题...',
+          type: 'question',
+          content: '为什么我的网不通？',
           timestamp: '14:45',
           quality: 78
         },
@@ -129,7 +129,7 @@ export default function SummaryPage() {
           id: '4',
           student: '陈同学',
           type: 'question',
-          content: '算法的时间复杂度分析有什么实用的技巧吗？',
+          content: '固定IP后发现ip还是自获是什么原因？',
           timestamp: '15:10',
           quality: 80
         }

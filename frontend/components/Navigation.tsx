@@ -15,7 +15,8 @@ import {
   Menu,
   X,
   Moon,
-  Sun
+  Sun,
+  Activity
 } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
@@ -24,6 +25,7 @@ const navigation = [
   { name: '关键词可视化', href: '/keywords', icon: Brain },
   { name: 'AI模拟答辩', href: '/debate', icon: MessageSquare },
   { name: '课堂热度分析', href: '/analysis', icon: BarChart3 },
+  { name: '实时数据监控', href: '/realtime', icon: Activity },
   { name: '思政推荐', href: '/ideology', icon: Heart },
   { name: '教学数据汇总', href: '/summary', icon: FileText },
   { name: 'AI对话', href: '/chat', icon: Sparkles },
