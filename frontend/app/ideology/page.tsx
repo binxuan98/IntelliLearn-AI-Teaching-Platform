@@ -38,10 +38,10 @@ interface RecommendationResult {
 }
 
 const typeConfig = {
-  quote: { label: '经典语录', icon: Quote, color: 'from-red-500 to-pink-500' },
-  policy: { label: '政策方针', icon: Flag, color: 'from-blue-500 to-indigo-500' },
-  person: { label: '先进人物', icon: User, color: 'from-green-500 to-emerald-500' },
-  case: { label: '典型案例', icon: FileText, color: 'from-purple-500 to-violet-500' }
+  quote: { label: '经典语录', icon: Quote, color: 'from-red-600 to-red-500' },
+  policy: { label: '政策方针', icon: Flag, color: 'from-red-700 to-red-600' },
+  person: { label: '先进人物', icon: User, color: 'from-red-800 to-red-700' },
+  case: { label: '典型案例', icon: FileText, color: 'from-red-900 to-red-800' }
 }
 
 export default function IdeologyPage() {
@@ -186,7 +186,7 @@ export default function IdeologyPage() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 hover:shadow-xl transition-shadow"
+        className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-950 dark:to-red-900 rounded-xl p-6 shadow-xl border-2 border-red-200 dark:border-red-800 hover:shadow-2xl hover:border-red-300 dark:hover:border-red-700 transition-all duration-300"
       >
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
@@ -223,7 +223,7 @@ export default function IdeologyPage() {
           </div>
         </div>
         
-        <blockquote className="text-slate-700 dark:text-slate-300 mb-4 pl-4 border-l-4 border-slate-300 dark:border-slate-600 italic">
+        <blockquote className="text-red-800 dark:text-red-200 mb-4 pl-4 border-l-4 border-red-500 dark:border-red-400 italic font-medium bg-red-50 dark:bg-red-900/30 p-3 rounded-r-lg">
           {item.content}
         </blockquote>
         
@@ -259,12 +259,13 @@ export default function IdeologyPage() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center"
+        className="text-center bg-gradient-to-r from-red-600 to-red-800 rounded-2xl p-8 shadow-2xl"
       >
-        <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-200 mb-2">
+        <h1 className="text-4xl font-bold text-white mb-3 flex items-center justify-center gap-3">
+          <Heart className="w-10 h-10 text-red-200" />
           思政推荐引擎
         </h1>
-        <p className="text-slate-600 dark:text-slate-400">
+        <p className="text-red-100 text-lg">
           智能分析课程内容，推荐相关思政元素，实现价值引领与知识传授的有机融合
         </p>
       </motion.div>
@@ -274,9 +275,10 @@ export default function IdeologyPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-700"
+        className="bg-gradient-to-br from-red-50 to-white dark:from-red-950 dark:to-slate-800 rounded-xl p-6 shadow-xl border-2 border-red-200 dark:border-red-800"
       >
-        <h2 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-4">
+        <h2 className="text-xl font-semibold text-red-800 dark:text-red-200 mb-4 flex items-center gap-2">
+          <BookOpen className="w-5 h-5 text-red-600" />
           课程内容输入
         </h2>
         
@@ -322,7 +324,7 @@ export default function IdeologyPage() {
           <button
             onClick={analyzeContent}
             disabled={isAnalyzing || !courseContent.trim()}
-            className="w-full bg-gradient-to-r from-red-500 to-pink-500 text-white py-3 rounded-lg font-semibold hover:from-red-600 hover:to-pink-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+            className="w-full bg-gradient-to-r from-red-600 to-red-700 text-white py-4 rounded-xl font-bold hover:from-red-700 hover:to-red-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transform hover:scale-105"
           >
             {isAnalyzing ? (
               <>
@@ -348,17 +350,18 @@ export default function IdeologyPage() {
           className="space-y-6"
         >
           {/* Summary */}
-          <div className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-700">
-            <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-4">
+          <div className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-950 dark:to-red-900 rounded-xl p-6 shadow-xl border-2 border-red-200 dark:border-red-800">
+            <h3 className="text-xl font-semibold text-red-800 dark:text-red-200 mb-4 flex items-center gap-2">
+              <Star className="w-5 h-5 text-red-600" />
               推荐总结
             </h3>
-            <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+            <p className="text-red-700 dark:text-red-300 leading-relaxed font-medium">
               {result.summary}
             </p>
           </div>
 
           {/* Filters and Actions */}
-          <div className="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-lg border border-slate-200 dark:border-slate-700">
+          <div className="bg-gradient-to-r from-red-100 to-red-50 dark:from-red-900 dark:to-red-950 rounded-xl p-4 shadow-xl border-2 border-red-200 dark:border-red-800">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
@@ -383,7 +386,7 @@ export default function IdeologyPage() {
               
               <button
                 onClick={exportToPPT}
-                className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
               >
                 <Download className="w-4 h-4" />
                 导出PPT素材
@@ -406,46 +409,46 @@ export default function IdeologyPage() {
           </div>
 
           {/* Integration Suggestions */}
-          <div className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-700">
-            <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-4 flex items-center gap-2">
-              <Lightbulb className="w-5 h-5 text-yellow-500" />
+          <div className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-950 dark:to-red-900 rounded-xl p-6 shadow-xl border-2 border-red-200 dark:border-red-800">
+            <h3 className="text-xl font-semibold text-red-800 dark:text-red-200 mb-4 flex items-center gap-2">
+              <Lightbulb className="w-5 h-5 text-red-600" />
               融入建议
             </h3>
             <div className="space-y-3">
               {result.integrationSuggestions.map((suggestion, index) => (
-                <div key={index} className="flex items-start gap-3 p-3 bg-slate-50 dark:bg-slate-700 rounded-lg">
-                  <div className="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5">
+                <div key={index} className="flex items-start gap-3 p-3 bg-red-100 dark:bg-red-800/50 rounded-lg border border-red-200 dark:border-red-700">
+                  <div className="w-6 h-6 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5 shadow-lg">
                     {index + 1}
                   </div>
-                  <p className="text-slate-700 dark:text-slate-300">{suggestion}</p>
+                  <p className="text-red-800 dark:text-red-200 font-medium">{suggestion}</p>
                 </div>
               ))}
             </div>
           </div>
 
           {/* PPT Slides Preview */}
-          <div className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-700">
-            <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-4 flex items-center gap-2">
-              <BookOpen className="w-5 h-5 text-green-500" />
+          <div className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-950 dark:to-red-900 rounded-xl p-6 shadow-xl border-2 border-red-200 dark:border-red-800">
+            <h3 className="text-xl font-semibold text-red-800 dark:text-red-200 mb-4 flex items-center gap-2">
+              <BookOpen className="w-5 h-5 text-red-600" />
               PPT素材预览
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {result.pptSlides.map((slide, index) => {
                 const [title, content] = slide.split('\n内容：')
                 return (
-                  <div key={index} className="bg-slate-50 dark:bg-slate-700 p-4 rounded-lg border border-slate-200 dark:border-slate-600">
+                  <div key={index} className="bg-red-100 dark:bg-red-800/50 p-4 rounded-lg border-2 border-red-200 dark:border-red-700 shadow-lg hover:shadow-xl transition-all">
                     <div className="text-xs text-slate-500 dark:text-slate-400 mb-2">
                       幻灯片 {index + 1}
                     </div>
-                    <h4 className="font-semibold text-slate-800 dark:text-slate-200 mb-2">
+                    <h4 className="font-bold text-red-800 dark:text-red-200 mb-2">
                       {title.replace('标题：', '')}
                     </h4>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">
+                    <p className="text-sm text-red-700 dark:text-red-300 font-medium">
                       {content}
                     </p>
                     <button
                       onClick={() => copyToClipboard(slide, `slide-${index}`)}
-                      className="mt-2 text-xs text-blue-500 hover:text-blue-600 flex items-center gap-1"
+                      className="mt-2 text-xs text-red-600 hover:text-red-700 flex items-center gap-1 font-semibold"
                     >
                       {copiedId === `slide-${index}` ? (
                         <><CheckCircle className="w-3 h-3" /> 已复制</>
@@ -460,14 +463,21 @@ export default function IdeologyPage() {
           </div>
 
           {/* Teaching Tips */}
-          <div className="bg-gradient-to-r from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-red-200 dark:border-red-800">
-            <h3 className="text-lg font-semibold text-red-800 dark:text-red-300 mb-3">
-              💡 教学建议
+          <div className="bg-gradient-to-r from-red-600 to-red-800 rounded-xl p-6 border-2 border-red-500 shadow-2xl">
+            <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+              <Lightbulb className="w-6 h-6 text-red-200" />
+              教学建议
             </h3>
-            <div className="space-y-2 text-red-700 dark:text-red-300">
-              <p>• <strong>BOPPPS-Bridge:</strong> 在课程导入时使用思政元素，建立情感连接</p>
-              <p>• <strong>墨子四疑法:</strong> 通过思政案例引发学生思考和讨论</p>
-              <p>• <strong>有机融合:</strong> 将思政元素自然融入专业知识讲解中，避免生硬嵌入</p>
+            <div className="space-y-3 text-red-100">
+              <div className="bg-red-700/50 p-3 rounded-lg border border-red-500">
+                <p className="font-semibold">• <strong className="text-red-200">BOPPPS-Bridge:</strong> 在课程导入时使用思政元素，建立情感连接</p>
+              </div>
+              <div className="bg-red-700/50 p-3 rounded-lg border border-red-500">
+                <p className="font-semibold">• <strong className="text-red-200">墨子四疑法:</strong> 通过思政案例引发学生思考和讨论</p>
+              </div>
+              <div className="bg-red-700/50 p-3 rounded-lg border border-red-500">
+                <p className="font-semibold">• <strong className="text-red-200">有机融合:</strong> 将思政元素自然融入专业知识讲解中，避免生硬嵌入</p>
+              </div>
             </div>
           </div>
         </motion.div>

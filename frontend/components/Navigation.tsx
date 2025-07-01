@@ -16,7 +16,8 @@ import {
   X,
   Moon,
   Sun,
-  Activity
+  Activity,
+  Users
 } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
@@ -26,6 +27,7 @@ const navigation = [
   { name: 'AI模拟答辩', href: '/debate', icon: MessageSquare },
   { name: '课堂热度分析', href: '/analysis', icon: BarChart3 },
   { name: '实时数据监控', href: '/realtime', icon: Activity },
+  { name: '学情分析', href: '/learning-analysis', icon: Users },
   { name: '思政推荐', href: '/ideology', icon: Heart },
   { name: '教学数据汇总', href: '/summary', icon: FileText },
   { name: 'AI对话', href: '/chat', icon: Sparkles },
